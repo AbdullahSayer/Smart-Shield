@@ -3,275 +3,284 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Shield - App</title>
+    <title>Smart Shield - Professional App</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
         tailwind.config = {
             theme: {
-                extend: { colors: { brandBlue: '#0A3B99', brandGreen: '#008C5E', danger: '#D92D20', warning: '#F59E0B', secure: '#10B981', bgGray: '#F9FAFB' } }
+                extend: { 
+                    colors: { 
+                        brandBlue: '#0A3B99', 
+                        brandGreen: '#008C5E', 
+                        danger: '#D92D20', 
+                        warning: '#F79009', 
+                        success: '#12B76A',
+                        bgGray: '#F2F4F7' 
+                    } 
+                }
             }
         }
     </script>
     <style>
-        body { background-color: #e5e7eb; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: sans-serif; }
-        .mobile-container { width: 100%; max-width: 400px; height: 850px; max-height: 100vh; background-color: #ffffff; position: relative; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); border-radius: 20px;}
+        body { background-color: #D1D5DB; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .mobile-window { width: 390px; height: 844px; background-color: white; border-radius: 40px; position: relative; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 50px 100px -20px rgba(0,0,0,0.5); border: 8px solid #1F2937; }
         .hide-scroll::-webkit-scrollbar { display: none; }
-        .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+        .custom-shadow { box-shadow: 0px 4px 18px rgba(0, 0, 0, 0.08); }
     </style>
 </head>
 <body>
 
-<div class="mobile-container">
-
-    <div id="loginScreen" class="flex-1 flex flex-col justify-center px-8 bg-brandBlue text-white z-50 absolute inset-0 transition-opacity duration-300">
-        <div class="text-center mb-10">
-            <i class="fa-solid fa-shield-halved text-6xl text-brandGreen mb-4"></i>
-            <h1 class="text-3xl font-bold">Smart Shield</h1>
-            <p class="text-blue-200 mt-2">Your trusted cybersecurity companion</p>
-        </div>
-        <div class="bg-white rounded-2xl p-6 shadow-lg text-gray-800">
-            <h2 class="text-xl font-bold mb-4 text-center">Login to Account</h2>
-            <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700 mb-1">Username</label>
-                <input type="text" placeholder="Enter username" class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:border-brandBlue focus:ring-1 focus:ring-brandBlue">
+<div class="mobile-window">
+    
+    <div id="loginView" class="absolute inset-0 z-50 bg-brandBlue flex flex-col items-center justify-center px-10 text-white transition-all duration-500">
+        <i class="fa-solid fa-shield-halved text-7xl text-brandGreen mb-6"></i>
+        <h1 class="text-3xl font-bold mb-2">Smart Shield</h1>
+        <p class="text-blue-200 text-center text-sm mb-12">Your trusted cybersecurity companion</p>
+        
+        <div class="w-full bg-white rounded-3xl p-6 text-gray-800 shadow-2xl">
+            <h2 class="text-xl font-bold mb-6 text-center">Login to Account</h2>
+            <div class="space-y-4 mb-8">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-500 mb-1 ml-1">Username</label>
+                    <input type="text" placeholder="Enter username" class="w-full bg-gray-50 border border-gray-200 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-brandBlue">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-500 mb-1 ml-1">Password</label>
+                    <input type="password" placeholder="••••••••" class="w-full bg-gray-50 border border-gray-200 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-brandBlue">
+                </div>
             </div>
-            <div class="mb-6">
-                <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                <input type="password" placeholder="••••••••" class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:border-brandBlue focus:ring-1 focus:ring-brandBlue">
-            </div>
-            <button onclick="performLogin()" class="w-full bg-brandBlue hover:bg-blue-800 text-white font-bold py-3 rounded-lg transition-colors">
-                Login
-            </button>
+            <button onclick="login()" class="w-full bg-brandBlue text-white font-bold py-4 rounded-xl hover:bg-blue-800 transition-all active:scale-95">Login</button>
         </div>
     </div>
 
-    <div id="mainApp" class="flex-1 flex flex-col hidden bg-bgGray">
+    <div id="appBody" class="flex-1 flex flex-col hidden bg-bgGray overflow-hidden">
         
-        <div id="headerBox" class="bg-brandBlue text-white p-6 rounded-b-[30px] shadow-md z-10 shrink-0 transition-colors duration-300">
-            <div class="flex items-center gap-2 mb-1">
-                <i id="headerIcon" class="fa-solid fa-shield-halved text-brandGreen text-xl"></i>
-                <h1 id="headerTitle" class="text-2xl font-bold">Smart Shield</h1>
+        <div id="mainHeader" class="bg-brandBlue text-white pt-14 pb-8 px-6 rounded-b-[40px] shadow-lg transition-colors duration-500">
+            <div class="flex items-center gap-3">
+                <div id="headerIconContainer" class="bg-white/20 p-2 rounded-xl">
+                    <i id="headerIcon" class="fa-solid fa-shield-halved text-2xl text-brandGreen"></i>
+                </div>
+                <div>
+                    <h1 id="headerTitle" class="text-2xl font-bold">Smart Shield</h1>
+                    <p id="headerSub" class="text-xs text-blue-100">Your trusted cybersecurity companion</p>
+                </div>
             </div>
-            <p id="headerSub" class="text-sm text-blue-200">Your trusted cybersecurity companion</p>
-            <button id="backBtn" onclick="goHome()" class="hidden mt-4 text-white hover:text-blue-200 flex items-center gap-2"><i class="fa-solid fa-arrow-left"></i> Back</button>
+            <button id="backBtn" onclick="goHome()" class="hidden mt-6 text-white text-sm font-medium flex items-center gap-2">
+                <i class="fa-solid fa-arrow-left"></i> Back
+            </button>
         </div>
 
-        <div class="flex-1 overflow-y-auto hide-scroll p-6 pb-24 relative">
+        <div class="flex-1 overflow-y-auto hide-scroll px-6 py-6 pb-32">
             
-            <div id="view-home" class="block">
+            <div id="view-home">
                 <h2 class="text-lg font-bold text-gray-800 mb-4">Quick Actions</h2>
                 <div class="space-y-4">
-                    <button onclick="openScanView('URL')" class="w-full bg-blue-600 hover:bg-blue-700 text-white p-5 rounded-2xl flex items-center gap-4 text-left shadow-sm">
-                        <div class="bg-white/20 p-3 rounded-xl"><i class="fa-solid fa-link text-xl"></i></div>
-                        <div><h3 class="font-bold text-lg">Scan URL</h3><p class="text-sm text-blue-100">Check suspicious links</p></div>
+                    <button onclick="openScan('URL')" class="w-full bg-blue-600 p-5 rounded-3xl flex items-center gap-4 text-left shadow-md active:scale-95 transition-transform">
+                        <div class="bg-white/20 p-3 rounded-2xl text-white"><i class="fa-solid fa-link text-xl"></i></div>
+                        <div><h3 class="text-white font-bold">Scan URL</h3><p class="text-blue-100 text-xs">Check suspicious links</p></div>
                     </button>
-                    <button onclick="openScanView('IMAGE')" class="w-full bg-brandGreen hover:bg-green-700 text-white p-5 rounded-2xl flex items-center gap-4 text-left shadow-sm">
-                        <div class="bg-white/20 p-3 rounded-xl"><i class="fa-solid fa-image text-xl"></i></div>
-                        <div><h3 class="font-bold text-lg">Analyze Image</h3><p class="text-sm text-green-100">Detect fake images</p></div>
+                    <button onclick="openScan('IMAGE')" class="w-full bg-brandGreen p-5 rounded-3xl flex items-center gap-4 text-left shadow-md active:scale-95 transition-transform">
+                        <div class="bg-white/20 p-3 rounded-2xl text-white"><i class="fa-solid fa-image text-xl"></i></div>
+                        <div><h3 class="text-white font-bold">Analyze Image</h3><p class="text-green-100 text-xs">Detect fake images</p></div>
                     </button>
-                    <button onclick="openScanView('FINANCE')" class="w-full bg-blue-700 hover:bg-blue-800 text-white p-5 rounded-2xl flex items-center gap-4 text-left shadow-sm">
-                        <div class="bg-white/20 p-3 rounded-xl"><i class="fa-solid fa-credit-card text-xl"></i></div>
-                        <div><h3 class="font-bold text-lg">Verify Financial Info</h3><p class="text-sm text-blue-100">Protect your accounts</p></div>
-                    </button>
-                </div>
-            </div>
-
-            <div id="view-scan-input" class="hidden">
-                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
-                    <label id="scanInputLabel" class="block text-sm font-bold text-gray-700 mb-2">Input Data</label>
-                    
-                    <div id="inputContainer" class="mb-4"></div>
-
-                    <button onclick="startAnalysis()" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-4 rounded-xl shadow-md">
-                        Scan Now
+                    <button onclick="openScan('FINANCE')" class="w-full bg-indigo-700 p-5 rounded-3xl flex items-center gap-4 text-left shadow-md active:scale-95 transition-transform">
+                        <div class="bg-white/20 p-3 rounded-2xl text-white"><i class="fa-solid fa-credit-card text-xl"></i></div>
+                        <div><h3 class="text-white font-bold">Verify Financial Info</h3><p class="text-indigo-100 text-xs">Protect your accounts</p></div>
                     </button>
                 </div>
             </div>
 
-            <div id="view-loading" class="hidden flex flex-col items-center justify-center h-48">
-                <i class="fa-solid fa-circle-notch fa-spin text-5xl text-brandBlue mb-4"></i>
-                <p class="text-gray-600 font-medium">AI Engine Analyzing...</p>
+            <div id="view-input" class="hidden">
+                <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
+                    <label id="inputLabel" class="block text-sm font-bold text-gray-700 mb-3">Enter URL or Link</label>
+                    <div id="inputBox" class="mb-6"></div>
+                    <button onclick="processScan()" class="w-full bg-blue-500 text-white font-bold py-4 rounded-2xl shadow-lg shadow-blue-200">Scan Now</button>
+                </div>
             </div>
 
-            <div id="view-results" class="hidden">
-                <div id="resultCard" class="rounded-2xl p-6 text-center mb-4 shadow-sm border">
-                    <div id="resultIconBox" class="text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3">
-                        <i id="resultIcon" class="fa-solid text-3xl"></i>
+            <div id="view-results" class="hidden animate-in fade-in zoom-in duration-300">
+                <div id="statusCard" class="bg-white rounded-[32px] p-8 text-center mb-6 shadow-xl border border-gray-100 relative overflow-hidden">
+                    <div id="scoreIconBg" class="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i id="scoreIcon" class="fa-solid text-4xl text-white"></i>
                     </div>
-                    <h2 id="resultTitle" class="text-3xl font-bold mb-2">Result</h2>
-                    <span id="resultScore" class="text-white px-4 py-1 rounded-full text-sm font-bold">Threat Score: 0/100</span>
+                    <h2 id="resultTitle" class="text-3xl font-black mb-3">High Risk!</h2>
+                    <div id="scoreBadge" class="inline-block px-6 py-2 rounded-full text-white font-bold text-sm">Threat Score: 87/100</div>
                 </div>
-                
-                <div class="bg-white rounded-2xl p-5 mb-4 shadow-sm border border-gray-100">
-                    <h3 class="font-bold text-gray-800 flex items-center gap-2 mb-3"><i class="fa-solid fa-microchip text-blue-500"></i> AI Findings</h3>
-                    <p id="resultDetails" class="text-sm text-gray-600"></p>
+
+                <div class="bg-white rounded-[24px] p-6 mb-4 custom-shadow">
+                    <h3 class="font-bold text-gray-800 flex items-center gap-2 mb-4"><i class="fa-solid fa-triangle-exclamation text-red-500"></i> Detected Threats</h3>
+                    <ul id="threatList" class="text-sm text-gray-600 space-y-3 pl-2"></ul>
+                </div>
+
+                <div class="bg-emerald-50 rounded-[24px] p-6 border border-emerald-100 custom-shadow">
+                    <h3 class="font-bold text-emerald-700 flex items-center gap-2 mb-4"><i class="fa-solid fa-circle-info"></i> Safety Tips</h3>
+                    <ul id="tipsList" class="text-sm text-emerald-800 space-y-2 font-medium"></ul>
                 </div>
             </div>
 
-            <div id="view-history" class="hidden space-y-3">
-                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-center">
+            <div id="view-history" class="hidden space-y-4">
+                <div class="bg-white p-4 rounded-2xl flex items-center justify-between custom-shadow border border-gray-50">
                     <div class="flex items-center gap-3">
-                        <div class="bg-blue-100 text-blue-600 p-2 rounded-lg"><i class="fa-solid fa-link"></i></div>
-                        <div><p class="font-semibold text-sm text-gray-800 truncate w-32">http://free-iphone...</p><p class="text-xs text-gray-400"><i class="fa-regular fa-clock"></i> 10 mins ago</p></div>
+                        <div class="bg-blue-50 text-blue-600 p-3 rounded-xl"><i class="fa-solid fa-link"></i></div>
+                        <div><p class="font-bold text-sm">https://paypal-secur...</p><p class="text-[10px] text-gray-400">2 hours ago</p></div>
                     </div>
-                    <span class="bg-red-100 text-danger px-3 py-1 rounded-full text-xs font-bold">High Risk</span>
+                    <span class="bg-red-100 text-red-600 px-3 py-1 rounded-full text-[10px] font-black">HIGH RISK</span>
                 </div>
-                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-center">
+                <div class="bg-white p-4 rounded-2xl flex items-center justify-between custom-shadow border border-gray-50">
                     <div class="flex items-center gap-3">
-                        <div class="bg-green-100 text-brandGreen p-2 rounded-lg"><i class="fa-solid fa-image"></i></div>
-                        <div><p class="font-semibold text-sm text-gray-800 truncate w-32">ad_banner.jpg</p><p class="text-xs text-gray-400"><i class="fa-regular fa-clock"></i> 2 hours ago</p></div>
+                        <div class="bg-green-50 text-brandGreen p-3 rounded-xl"><i class="fa-solid fa-image"></i></div>
+                        <div><p class="font-bold text-sm">profile_verification.jpg</p><p class="text-[10px] text-gray-400">5 hours ago</p></div>
                     </div>
-                    <span class="bg-green-100 text-brandGreen px-3 py-1 rounded-full text-xs font-bold">Safe</span>
+                    <span class="bg-green-100 text-brandGreen px-3 py-1 rounded-full text-[10px] font-black">LOW RISK</span>
                 </div>
             </div>
 
         </div>
 
-        <div class="bg-white border-t border-gray-200 absolute bottom-0 w-full flex justify-around p-3 pb-6 shrink-0 z-20">
-            <button onclick="goHome()" id="navHome" class="flex flex-col items-center text-blue-600 transition-colors">
-                <i class="fa-solid fa-house text-xl mb-1"></i><span class="text-xs font-medium">Home</span>
+        <div class="bg-white border-t border-gray-100 h-24 flex justify-around items-center px-10 pb-4">
+            <button onclick="goHome()" id="btnHome" class="flex flex-col items-center gap-1 text-brandBlue">
+                <i class="fa-solid fa-house text-xl"></i><span class="text-[10px] font-bold">Home</span>
             </button>
-            <button onclick="showHistory()" id="navHistory" class="flex flex-col items-center text-gray-400 hover:text-blue-600 transition-colors">
-                <i class="fa-solid fa-clock-rotate-left text-xl mb-1"></i><span class="text-xs font-medium">History</span>
+            <button onclick="showHistory()" id="btnHistory" class="flex flex-col items-center gap-1 text-gray-300">
+                <i class="fa-solid fa-clock-rotate-left text-xl"></i><span class="text-[10px] font-bold">History</span>
             </button>
         </div>
-
     </div>
 </div>
 
 <script>
-    function performLogin() {
-        document.getElementById('loginScreen').style.opacity = '0';
+    // تسجيل الدخول
+    function login() {
+        document.getElementById('loginView').style.opacity = '0';
         setTimeout(() => {
-            document.getElementById('loginScreen').classList.add('hidden');
-            document.getElementById('mainApp').classList.remove('hidden');
-        }, 300);
+            document.getElementById('loginView').classList.add('hidden');
+            document.getElementById('appBody').classList.remove('hidden');
+        }, 500);
     }
 
-    function hideAllViews() {
-        ['view-home', 'view-scan-input', 'view-loading', 'view-results', 'view-history', 'backBtn'].forEach(id => {
-            document.getElementById(id).classList.add('hidden');
-        });
+    // التنقل
+    function hideViews() {
+        ['view-home', 'view-input', 'view-results', 'view-history', 'backBtn'].forEach(v => document.getElementById(v).classList.add('hidden'));
     }
 
     function goHome() {
-        hideAllViews();
+        hideViews();
         document.getElementById('view-home').classList.remove('hidden');
-        updateHeader("Smart Shield", "Your trusted cybersecurity companion", "bg-brandBlue");
-        document.getElementById('navHome').classList.replace('text-gray-400', 'text-blue-600');
-        document.getElementById('navHistory').classList.replace('text-blue-600', 'text-gray-400');
+        resetHeader("Smart Shield", "Your trusted cybersecurity companion", "bg-brandBlue");
+        updateNav('home');
     }
 
     function showHistory() {
-        hideAllViews();
+        hideViews();
         document.getElementById('view-history').classList.remove('hidden');
-        updateHeader("Scan History", "Your recent security checks", "bg-brandBlue");
-        document.getElementById('navHistory').classList.replace('text-gray-400', 'text-blue-600');
-        document.getElementById('navHome').classList.replace('text-blue-600', 'text-gray-400');
+        resetHeader("Scan History", "Your recent security checks", "bg-brandBlue");
+        updateNav('history');
     }
 
-    function openScanView(type) {
-        hideAllViews();
-        document.getElementById('view-scan-input').classList.remove('hidden');
+    function updateNav(page) {
+        if(page === 'home') {
+            document.getElementById('btnHome').className = "flex flex-col items-center gap-1 text-brandBlue";
+            document.getElementById('btnHistory').className = "flex flex-col items-center gap-1 text-gray-300";
+        } else {
+            document.getElementById('btnHistory').className = "flex flex-col items-center gap-1 text-brandBlue";
+            document.getElementById('btnHome').className = "flex flex-col items-center gap-1 text-gray-300";
+        }
+    }
+
+    function openScan(type) {
+        hideViews();
+        document.getElementById('view-input').classList.remove('hidden');
         document.getElementById('backBtn').classList.remove('hidden');
-        
-        let container = document.getElementById('inputContainer');
+        let box = document.getElementById('inputBox');
         
         if(type === 'URL') {
-            updateHeader("Scan URL", "Enter a suspicious link to analyze", "bg-brandBlue");
-            document.getElementById('scanInputLabel').innerText = "Enter URL or Link";
-            container.innerHTML = `<input type="text" placeholder="https://example.com/suspicious" class="w-full border border-gray-300 rounded-xl p-4 focus:outline-none focus:ring-2 focus:ring-brandBlue bg-gray-50">`;
+            document.getElementById('inputLabel').innerText = "Enter URL or Link";
+            box.innerHTML = `<input type="text" id="scanData" placeholder="https://example.com/suspicious-link" class="w-full bg-gray-50 p-4 rounded-xl border border-gray-200 outline-none focus:ring-2 focus:ring-blue-400">`;
         } else if (type === 'IMAGE') {
-            updateHeader("Analyze Image", "Upload an image to detect deepfakes", "bg-brandBlue");
-            document.getElementById('scanInputLabel').innerText = "Upload Image File";
-            container.innerHTML = `<input type="file" accept="image/*" class="w-full border border-gray-300 rounded-xl p-3 bg-gray-50 text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer">`;
+            document.getElementById('inputLabel').innerText = "Upload Advertisement Image";
+            box.innerHTML = `<input type="file" accept="image/*" class="w-full text-xs text-gray-500 file:mr-4 file:py-3 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">`;
         } else {
-            updateHeader("Verify Financial", "Protect your bank accounts", "bg-brandBlue");
-            document.getElementById('scanInputLabel').innerText = "Enter Account / IBAN";
-            container.innerHTML = `<input type="text" placeholder="SA00 0000 0000 0000 0000 0000" class="w-full border border-gray-300 rounded-xl p-4 focus:outline-none focus:ring-2 focus:ring-brandBlue bg-gray-50">`;
+            document.getElementById('inputLabel').innerText = "Enter Bank Account / IBAN";
+            box.innerHTML = `<input type="text" id="scanData" placeholder="SA00 0000 0000 0000 0000" class="w-full bg-gray-50 p-4 rounded-xl border border-gray-200 outline-none focus:ring-2 focus:ring-blue-400">`;
         }
     }
 
-    function startAnalysis() {
-        hideAllViews();
-        document.getElementById('view-loading').classList.remove('hidden');
-        updateHeader("Analyzing...", "AI is processing your data", "bg-brandBlue");
-        
-        // هنا نقرأ اللي كتبه المستخدم عشان نفحصه
-        let inputValue = "";
-        let inputField = document.querySelector('#inputContainer input[type="text"]');
-        if(inputField) {
-            inputValue = inputField.value.toLowerCase();
-        }
+    function processScan() {
+        let val = "";
+        let field = document.getElementById('scanData');
+        if(field) val = field.value.toLowerCase();
 
+        hideViews();
+        resetHeader("Analyzing...", "Processing through AI engine", "bg-brandBlue");
+        
         setTimeout(() => {
-            hideAllViews();
+            hideViews();
             document.getElementById('view-results').classList.remove('hidden');
             document.getElementById('backBtn').classList.remove('hidden');
             
             let score;
-            
-            // المخ الذكي (القواعد اللي برمجناها)
-            if (inputValue.includes('google') || inputValue.includes('psau.edu.sa') || inputValue.includes('youtube') || inputValue.includes('apple')) {
-                score = Math.floor(Math.random() * 5) + 1; // يعطي نسبة آمنة (1-5)
-            } else if (inputValue.includes('free') || inputValue.includes('win') || inputValue.includes('prize') || inputValue.includes('login')) {
-                score = Math.floor(Math.random() * 14) + 85; // يعطي نسبة خطيرة (85-98)
-            } else if (inputValue === "") {
-                score = Math.floor(Math.random() * 20) + 40; // نسبة متوسطة للي ما يكتب شيء
+            // المنطق الذكي (F6, F7)
+            if (val.includes('google') || val.includes('psau') || val.includes('sa')) {
+                score = Math.floor(Math.random() * 8) + 2;
+            } else if (val.includes('free') || val.includes('gift') || val.includes('win') || val === "") {
+                score = Math.floor(Math.random() * 12) + 85;
             } else {
-                score = Math.floor(Math.random() * 40) + 30; // نسبة متوسطة للروابط العادية
+                score = Math.floor(Math.random() * 30) + 35;
             }
 
-            let card = document.getElementById('resultCard');
-            let iconBox = document.getElementById('resultIconBox');
-            let icon = document.getElementById('resultIcon');
-            let title = document.getElementById('resultTitle');
-            let scoreBadge = document.getElementById('resultScore');
-            let details = document.getElementById('resultDetails');
-            
-            card.className = "rounded-2xl p-6 text-center mb-4 shadow-sm border";
-            iconBox.className = "text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3";
-            scoreBadge.className = "text-white px-4 py-1 rounded-full text-sm font-bold";
-
-            if (score >= 70) {
-                updateHeader("High Risk!", "Analysis complete", "bg-danger");
-                card.classList.add('bg-red-50', 'border-red-200');
-                iconBox.classList.add('bg-danger');
-                icon.className = "fa-solid fa-triangle-exclamation text-3xl";
-                title.className = "text-3xl font-bold text-danger mb-2";
-                title.innerText = "High Risk!";
-                scoreBadge.classList.add('bg-danger');
-                details.innerHTML = "<strong>Threat detected!</strong> The AI found matching patterns with known fraud signatures. Do not proceed.";
-            } else if (score >= 30) {
-                updateHeader("Caution", "Analysis complete", "bg-warning");
-                card.classList.add('bg-yellow-50', 'border-yellow-200');
-                iconBox.classList.add('bg-warning');
-                icon.className = "fa-solid fa-circle-exclamation text-3xl";
-                title.className = "text-3xl font-bold text-warning mb-2";
-                title.innerText = "Suspicious";
-                scoreBadge.classList.add('bg-warning');
-                details.innerHTML = "<strong>Proceed with caution.</strong> Some elements appear anomalous. Verify the source before providing any sensitive info.";
-            } else {
-                updateHeader("Secure", "Analysis complete", "bg-secure");
-                card.classList.add('bg-green-50', 'border-green-200');
-                iconBox.classList.add('bg-secure');
-                icon.className = "fa-solid fa-shield-check text-3xl";
-                title.className = "text-3xl font-bold text-secure mb-2";
-                title.innerText = "Looks Safe";
-                scoreBadge.classList.add('bg-secure');
-                details.innerHTML = "<strong>No immediate threats detected.</strong> The data appears to match legitimate patterns. Standard safety rules still apply.";
-            }
-            
-            scoreBadge.innerText = `Threat Score: ${score}/100`;
-        }, 2000);
+            renderResults(score);
+        }, 1500);
     }
 
-    function updateHeader(title, sub, bgColorClass) {
+    function renderResults(score) {
+        let header = document.getElementById('mainHeader');
+        let card = document.getElementById('statusCard');
+        let badge = document.getElementById('scoreBadge');
+        let iconBg = document.getElementById('scoreIconBg');
+        let icon = document.getElementById('scoreIcon');
+        let title = document.getElementById('resultTitle');
+        let threats = document.getElementById('threatList');
+        let tips = document.getElementById('tipsList');
+
+        if(score >= 70) {
+            header.className = "bg-danger text-white pt-14 pb-8 px-6 rounded-b-[40px] shadow-lg transition-all";
+            iconBg.className = "w-20 h-20 bg-danger rounded-full flex items-center justify-center mx-auto mb-4";
+            badge.className = "inline-block px-6 py-2 bg-danger rounded-full text-white font-bold text-sm";
+            icon.className = "fa-solid fa-shield-cat text-4xl text-white";
+            title.innerText = "High Risk!";
+            title.className = "text-3xl font-black mb-3 text-danger";
+            threats.innerHTML = "<li>• Phishing attempt detected</li><li>• Suspicious domain age</li><li>• Mimics financial institution</li>";
+            tips.innerHTML = "<li>1. Never enter personal info</li><li>2. Verify sender identity</li>";
+        } else if (score >= 30) {
+            header.className = "bg-warning text-white pt-14 pb-8 px-6 rounded-b-[40px] shadow-lg transition-all";
+            iconBg.className = "w-20 h-20 bg-warning rounded-full flex items-center justify-center mx-auto mb-4";
+            badge.className = "inline-block px-6 py-2 bg-warning rounded-full text-white font-bold text-sm";
+            icon.className = "fa-solid fa-circle-exclamation text-4xl text-white";
+            title.innerText = "Medium Risk";
+            title.className = "text-3xl font-black mb-3 text-warning";
+            threats.innerHTML = "<li>• Unverified source</li><li>• Unusual redirection pattern</li>";
+            tips.innerHTML = "<li>1. Use multi-factor authentication</li><li>2. Check official website directly</li>";
+        } else {
+            header.className = "bg-success text-white pt-14 pb-8 px-6 rounded-b-[40px] shadow-lg transition-all";
+            iconBg.className = "w-20 h-20 bg-success rounded-full flex items-center justify-center mx-auto mb-4";
+            badge.className = "inline-block px-6 py-2 bg-success rounded-full text-white font-bold text-sm";
+            icon.className = "fa-solid fa-shield-check text-4xl text-white";
+            title.innerText = "Low Risk";
+            title.className = "text-3xl font-black mb-3 text-success";
+            threats.innerHTML = "<li>• No immediate threats found</li>";
+            tips.innerHTML = "<li>1. Stay vigilant with new links</li><li>2. Keep your app updated</li>";
+        }
+        document.getElementById('headerTitle').innerText = "Scan Results";
+        document.getElementById('headerSub').innerText = "Analysis complete";
+        badge.innerText = `Threat Score: ${score}/100`;
+    }
+
+    function resetHeader(title, sub, color) {
+        let h = document.getElementById('mainHeader');
+        h.className = `${color} text-white pt-14 pb-8 px-6 rounded-b-[40px] shadow-lg transition-all`;
         document.getElementById('headerTitle').innerText = title;
         document.getElementById('headerSub').innerText = sub;
-        let headerBox = document.getElementById('headerBox');
-        headerBox.className = `text-white p-6 rounded-b-[30px] shadow-md z-10 shrink-0 transition-colors duration-300 ${bgColorClass}`;
     }
 </script>
 
