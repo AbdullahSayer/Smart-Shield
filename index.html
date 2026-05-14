@@ -185,7 +185,6 @@
         } else if (type === 'IMAGE') {
             updateHeader("Analyze Image", "Upload an image to detect deepfakes", "bg-brandBlue");
             document.getElementById('scanInputLabel').innerText = "Upload Image File";
-            // هنا التعديل السحري: زر يفتح ملفات الصور في الجوال
             container.innerHTML = `<input type="file" accept="image/*" class="w-full border border-gray-300 rounded-xl p-3 bg-gray-50 text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer">`;
         } else {
             updateHeader("Verify Financial", "Protect your bank accounts", "bg-brandBlue");
@@ -199,13 +198,31 @@
         document.getElementById('view-loading').classList.remove('hidden');
         updateHeader("Analyzing...", "AI is processing your data", "bg-brandBlue");
         
+        // هنا نقرأ اللي كتبه المستخدم عشان نفحصه
+        let inputValue = "";
+        let inputField = document.querySelector('#inputContainer input[type="text"]');
+        if(inputField) {
+            inputValue = inputField.value.toLowerCase();
+        }
+
         setTimeout(() => {
             hideAllViews();
             document.getElementById('view-results').classList.remove('hidden');
             document.getElementById('backBtn').classList.remove('hidden');
             
-            // خوارزمية ذكية لاختيار نسبة خطر عشوائية من 1 إلى 100
-            let score = Math.floor(Math.random() * 100) + 1;
+            let score;
+            
+            // المخ الذكي (القواعد اللي برمجناها)
+            if (inputValue.includes('google') || inputValue.includes('psau.edu.sa') || inputValue.includes('youtube') || inputValue.includes('apple')) {
+                score = Math.floor(Math.random() * 5) + 1; // يعطي نسبة آمنة (1-5)
+            } else if (inputValue.includes('free') || inputValue.includes('win') || inputValue.includes('prize') || inputValue.includes('login')) {
+                score = Math.floor(Math.random() * 14) + 85; // يعطي نسبة خطيرة (85-98)
+            } else if (inputValue === "") {
+                score = Math.floor(Math.random() * 20) + 40; // نسبة متوسطة للي ما يكتب شيء
+            } else {
+                score = Math.floor(Math.random() * 40) + 30; // نسبة متوسطة للروابط العادية
+            }
+
             let card = document.getElementById('resultCard');
             let iconBox = document.getElementById('resultIconBox');
             let icon = document.getElementById('resultIcon');
@@ -213,13 +230,11 @@
             let scoreBadge = document.getElementById('resultScore');
             let details = document.getElementById('resultDetails');
             
-            // مسح الكلاسات القديمة
             card.className = "rounded-2xl p-6 text-center mb-4 shadow-sm border";
             iconBox.className = "text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3";
             scoreBadge.className = "text-white px-4 py-1 rounded-full text-sm font-bold";
 
             if (score >= 70) {
-                // High Risk
                 updateHeader("High Risk!", "Analysis complete", "bg-danger");
                 card.classList.add('bg-red-50', 'border-red-200');
                 iconBox.classList.add('bg-danger');
@@ -229,7 +244,6 @@
                 scoreBadge.classList.add('bg-danger');
                 details.innerHTML = "<strong>Threat detected!</strong> The AI found matching patterns with known fraud signatures. Do not proceed.";
             } else if (score >= 30) {
-                // Medium Risk
                 updateHeader("Caution", "Analysis complete", "bg-warning");
                 card.classList.add('bg-yellow-50', 'border-yellow-200');
                 iconBox.classList.add('bg-warning');
@@ -239,7 +253,6 @@
                 scoreBadge.classList.add('bg-warning');
                 details.innerHTML = "<strong>Proceed with caution.</strong> Some elements appear anomalous. Verify the source before providing any sensitive info.";
             } else {
-                // Low Risk
                 updateHeader("Secure", "Analysis complete", "bg-secure");
                 card.classList.add('bg-green-50', 'border-green-200');
                 iconBox.classList.add('bg-secure');
@@ -257,7 +270,6 @@
     function updateHeader(title, sub, bgColorClass) {
         document.getElementById('headerTitle').innerText = title;
         document.getElementById('headerSub').innerText = sub;
-        
         let headerBox = document.getElementById('headerBox');
         headerBox.className = `text-white p-6 rounded-b-[30px] shadow-md z-10 shrink-0 transition-colors duration-300 ${bgColorClass}`;
     }
